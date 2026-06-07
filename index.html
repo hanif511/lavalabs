@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Lavalabs — Quiet luxury, raw edge. Streetwear premium dari Jakarta." />
+  <meta property="og:title" content="Lavalabs.official" />
+  <meta property="og:description" content="Quiet luxury, raw edge. Koleksi streetwear premium Jakarta." />
+  <meta property="og:type" content="website" />
+  <title>Lavalabs — Quiet Luxury, Raw Edge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── Reset & Base ─── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    :root {
+      --ink:    #0C0C0B;
+      --ink2:   #161614;
+      --ink3:   #222220;
+      --ink4:   #2E2E2B;
+      --dust:   #F2EDE6;
+      --dust2:  #E8E2D9;
+      --dust3:  #C9C2B7;
+      --dust4:  #9A9388;
+      --accent: #B8A08A;
+      --accent2:#8C7260;
+      --wa:     #25D366;
+    }
+
+    body {
+      background: var(--ink);
+      color: var(--dust);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+
+    /* ─── Scrollbar ─── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--ink); }
+    ::-webkit-scrollbar-thumb { background: var(--ink4); border-radius: 2px; }
+
+    /* ─── Page reveal ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      opacity: 0;
+      animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    .d1 { animation-delay: 0.1s; }
+    .d2 { animation-delay: 0.25s; }
+    .d3 { animation-delay: 0.4s; }
+    .d4 { animation-delay: 0.55s; }
+    .d5 { animation-delay: 0.7s; }
+
+    /* ─── Cursor ─── */
+    .cursor {
+      position: fixed;
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.08s, width 0.2s, height 0.2s, opacity 0.2s;
+    }
+    .cursor.expanded { width: 32px; height: 32px; background: transparent; border: 1px solid var(--accent); opacity: 0.5; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.75rem 3rem;
+      transition: background 0.4s, padding 0.3s, backdrop-filter 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(12, 12, 11, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 1.25rem 3rem;
+      border-bottom: 1px solid rgba(242,237,230,0.05);
+    }
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 1.2rem;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--dust);
+    }
+    .logo sup {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.42rem;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      vertical-align: super;
+      margin-left: 3px;
+    }
+    .nav-links {
+      display: flex; align-items: center; gap: 3rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--dust4);
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--dust); }
+    .nav-cta {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid rgba(184,160,138,0.3);
+      padding: 0.55rem 1.25rem;
+      transition: border-color 0.3s, color 0.3s, background 0.3s;
+    }
+    .nav-cta:hover {
+      border-color: var(--accent);
+      background: rgba(184,160,138,0.06);
+      color: var(--dust2);
+    }
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 1px;
+      background: var(--dust3);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    /* ─── Mobile Nav Menu ─── */
+    .mobile-menu {
+      display: none;
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--ink);
+      z-index: 99;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 2.5rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s;
+    }
+    .mobile-menu.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .mobile-menu a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      color: var(--dust3);
+      transition: color 0.3s;
+    }
+    .mobile-menu a:hover { color: var(--dust); }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: end;
+      padding: 9rem 3rem 5rem;
+      gap: 4rem;
+    }
+    .hero-left { display: flex; flex-direction: column; }
+    .eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 2.5rem;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 2rem; height: 1px;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(3.5rem, 6.5vw, 6rem);
+      line-height: 1.0;
+      letter-spacing: -0.01em;
+      color: var(--dust);
+      margin-bottom: 2.5rem;
+    }
+    h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+    .hero-sub {
+      font-size: 0.85rem;
+      line-height: 1.9;
+      color: var(--dust4);
+      font-weight: 300;
+      max-width: 360px;
+      margin-bottom: 3.5rem;
+    }
+    .cta-row {
+      display: flex; align-items: center; gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    /* ─── Buttons ─── */
+    .btn-wa {
+      display: inline-flex; align-items: center; gap: 0.65rem;
+      padding: 0.9rem 2rem;
+      background: var(--wa);
+      color: #fff;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      border: none; cursor: pointer;
+      transition: opacity 0.25s, transform 0.2s;
+      white-space: nowrap;
+    }
+    .btn-wa:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-wa svg { width: 14px; height: 14px; fill: #fff; flex-shrink: 0; }
+
+    .btn-ghost {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--dust4);
+      border-bottom: 1px solid rgba(201,194,183,0.25);
+      padding-bottom: 2px;
+      transition: color 0.25s, border-color 0.25s;
+      white-space: nowrap;
+    }
+    .btn-ghost:hover { color: var(--dust2); border-color: var(--dust4); }
+
+    /* ─── Hero Visual ─── */
+    .hero-right {
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-end;
+    }
+    .hero-card {
+      width: 100%;
+      max-width: 340px;
+      aspect-ratio: 2/3;
+      background: var(--ink2);
+      border: 1px solid rgba(242,237,230,0.07);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    
+    }
+    .hero-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0.35;
+    }
+    .hero-bg-num {
+      position: absolute;
+      top: 1rem; right: 1.25rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 7rem;
+      color: rgba(242,237,230,0.03);
+      line-height: 1;
+      user-select: none;
+    }
+    .hero-card-label{
+    position: absolute;
+    bottom: 0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+
+    color: var(--accent2);
+    white-space: nowrap;
+    }
+    .hero-model-image{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    display:block;
+    }
+
+    /* ─── Marquee ─── */
+    .marquee-wrap {
+      overflow: hidden;
+      border-top: 1px solid rgba(242,237,230,0.05);
+      border-bottom: 1px solid rgba(242,237,230,0.05);
+      padding: 0.85rem 0;
+    }
+    .marquee-track {
+      display: flex;
+      gap: 0;
+      animation: marqueeScroll 22s linear infinite;
+      width: max-content;
+    }
+    .marquee-track:hover { animation-play-state: paused; }
+    @keyframes marqueeScroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .marquee-item {
+      display: flex; align-items: center; gap: 2.5rem;
+      padding-right: 2.5rem;
+      white-space: nowrap;
+    }
+    .marquee-text {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--dust4);
+    }
+    .marquee-dot {
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0.5;
+      flex-shrink: 0;
+    }
+
+    /* ─── Sections ─── */
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      color: var(--dust);
+      line-height: 1.1;
+      margin-top: 0.5rem;
+    }
+
+    /* ─── Products ─── */
+    .products { padding: 5rem 3rem; }
+    .products-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 2.5rem;
+    }
+    .products-count {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      color: var(--dust4);
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(242,237,230,0.05);
+      border: 1px solid rgba(242,237,230,0.05);
+    }
+    .product-card {
+      background: var(--ink);
+      cursor: pointer;
+      transition: background 0.35s;
+      position: relative;
+    }
+    .product-card:hover { background: var(--ink2); }
+    .product-thumb {
+      aspect-ratio: 3/4;
+      background: var(--ink2);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.35s;
+    }
+    .product-card:hover .product-thumb { background: var(--ink3); }
+    .p-num {
+      position: absolute; top: 1rem; left: 1.25rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.18em;
+      color: rgba(201,194,183,0.22);
+    }
+    .product-thumb{
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    aspect-ratio: 4/5;
+}
+
+.product-image{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    transition:0.5s ease;
+}
+
+.product-card:hover .product-image{
+    transform:scale(1.05);
+}
+
+.product-info{
+    margin-top:15px;
+}
+
+.product-name{
+    font-size:1.1rem;
+    font-weight:600;
+    color:white;
+}
+
+.product-price{
+    color:#bdbdbd;
+    margin-top:5px;
+}
+.product-thumb::after{
+    content:"View Product";
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,.5);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    opacity:0;
+    transition:.3s;
+    letter-spacing:2px;
+}
+
+.product-thumb:hover::after{
+    opacity:1;
+}
+    .p-badge {
+      position: absolute; top: 1rem; right: 1.25rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.52rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid rgba(184,160,138,0.25);
+      padding: 3px 8px;
+    }
+    .product-svg-el { width: 62%; }
+    .product-info {
+      padding: 1.25rem 1.5rem;
+      border-top: 1px solid rgba(242,237,230,0.05);
+      display: flex; justify-content: space-between; align-items: baseline;
+    }
+    .p-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 1.05rem;
+      color: var(--dust);
+      letter-spacing: 0.02em;
+    }
+    .p-price {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+
+    /* ─── About ─── */
+    .about {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-top: 1px solid rgba(242,237,230,0.05);
+      border-bottom: 1px solid rgba(242,237,230,0.05);
+    }
+    .about-left {
+      padding: 5rem 3rem;
+      border-right: 1px solid rgba(242,237,230,0.05);
+    }
+    .about-right { padding: 5rem 3rem; }
+    .about-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+      line-height: 1.45;
+      color: var(--dust);
+      margin-top: 1.75rem;
+      margin-bottom: 2.5rem;
+    }
+    .about-body {
+      font-size: 0.83rem;
+      line-height: 1.9;
+      color: var(--dust4);
+      font-weight: 300;
+      margin-bottom: 1.25rem;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: rgba(242,237,230,0.05);
+      border: 1px solid rgba(242,237,230,0.05);
+      margin-top: 1.75rem;
+    }
+    .stat {
+      background: var(--ink);
+      padding: 1.5rem 1.75rem;
+    }
+    .stat-n {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 2.2rem;
+      color: var(--dust);
+      line-height: 1;
+      margin-bottom: 0.35rem;
+    }
+    .stat-l {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--dust4);
+    }
+
+    /* ─── Order ─── */
+    .order {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 3rem;
+      padding: 5rem 3rem;
+      flex-wrap: wrap;
+    }
+    .order-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      color: var(--dust);
+      line-height: 1.15;
+      margin-top: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .order-sub {
+      font-size: 0.83rem;
+      color: var(--dust4);
+      font-weight: 300;
+      line-height: 1.85;
+      max-width: 400px;
+    }
+    .btn-wa-lg {
+      display: inline-flex; align-items: center; gap: 0.75rem;
+      padding: 1.1rem 2.5rem;
+      background: var(--wa);
+      color: #fff;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      border: none; cursor: pointer;
+      white-space: nowrap;
+      transition: opacity 0.25s, transform 0.2s;
+      flex-shrink: 0;
+    }
+    .btn-wa-lg:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-wa-lg svg { width: 16px; height: 16px; fill: #fff; flex-shrink: 0; }
+
+    /* ─── Footer ─── */
+    footer {
+      padding: 2rem 3rem;
+      border-top: 1px solid rgba(242,237,230,0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 1rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: rgba(242,237,230,0.25);
+    }
+    .footer-right {
+      display: flex; align-items: center; gap: 2rem;
+    }
+    .footer-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(242,237,230,0.2);
+      transition: color 0.3s;
+    }
+    .footer-link:hover { color: var(--dust4); }
+    .footer-copy {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.1em;
+      color: rgba(242,237,230,0.15);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      nav { padding: 1.5rem 1.5rem; }
+      nav.scrolled { padding: 1.1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .mobile-menu { display: flex; }
+
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 7rem 1.5rem 3rem;
+        gap: 3rem;
+        min-height: auto;
+      }
+      .hero-right { justify-content: center; }
+      .hero-card { max-width: 260px; }
+
+      .products { padding: 3.5rem 1.5rem; }
+      .product-grid { grid-template-columns: 1fr 1fr; }
+
+      .about { grid-template-columns: 1fr; }
+      .about-left {
+        padding: 3.5rem 1.5rem;
+        border-right: none;
+        border-bottom: 1px solid rgba(242,237,230,0.05);
+      }
+      .about-right { padding: 3.5rem 1.5rem; }
+
+      .order {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 3.5rem 1.5rem;
+      }
+
+      footer {
+        padding: 1.75rem 1.5rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+      }
+      .footer-right { flex-wrap: wrap; gap: 1rem; }
+    }
+
+    @media (max-width: 540px) {
+      .product-grid { grid-template-columns: 1fr; }
+      h1 { font-size: clamp(3rem, 11vw, 3.5rem); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Custom cursor (desktop only) -->
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#koleksi" onclick="closeMobile()">Koleksi</a>
+    <a href="#about" onclick="closeMobile()">About</a>
+    <a href="#order" onclick="closeMobile()">Order</a>
+    <a href="https://wa.me/6281234567890?text=Halo%20Lavalabs!%20Saya%20ingin%20order" target="_blank" onclick="closeMobile()">WhatsApp</a>
+  </div>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <a href="#" class="logo">Lavalabs<sup>®</sup></a>
+    <ul class="nav-links">
+      <li><a href="#koleksi">Koleksi</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="https://wa.me/6281234567890?text=Halo%20Lavalabs!%20Saya%20ingin%20order" target="_blank" class="nav-cta">Order</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu" onclick="toggleMobile()">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="eyebrow reveal d1">Jakarta — SS 2025</div>
+      <h1 class="reveal d2">Quiet,<em> luxury,</em> raw edge.</h1>
+      <p class="hero-sub reveal d3">Koleksi streetwear yang bicara tanpa berteriak — material premium, siluet presisi, dan detail yang hanya terlihat oleh yang tahu.</p>
+      <div class="cta-row reveal d4">
+        <a href="https://wa.me/6281234567890?text=Halo%20Lavalabs!%20Saya%20ingin%20order" target="_blank" class="btn-wa">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          Order via WhatsApp
+        </a>
+        <a class="btn-ghost" href="#koleksi">Lihat Koleksi</a>
+      </div>
+    </div>
+    <div class="hero-right reveal d5">
+      <div class="hero-card">
+        <div class="hero-bg-num">01</div>
+          <div class="hero-card">
+            <div class="hero-bg-num">01</div>
+
+            <img src="img/model.jpeg" alt="LAVA Model" class="hero-model-image">
+
+        <div class="hero-card-label">RESEARCH DIVISION</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap" aria-hidden="true">
+    <div class="marquee-track">
+      <!-- Duplicated for seamless loop -->
+      <div class="marquee-item"><span class="marquee-text">Lavalabs.official</span><span class="marquee-dot"></span></div>
+      <div class="marquee-item"><span class="marquee-text">Drop Culture</span><span class="marquee-dot"></span></div>
+      <div class="marquee-item"><span class="marquee-text">Jakarta Streetwear</span><span class="marquee-dot"></span></div>
+      <div class="marquee-item"><span class="marquee-text">Premium Cotton</span><span class="marquee-dot"></span></div>
+      <div class="marquee-item"><span class="marquee-text">Limited Drops</span><span class="marquee-dot"></span></div>
+      <div class="marquee-item"><span class="marquee-text">Quiet Luxury</span><span class="marquee-dot"></span></div>
+      <div class="marquee-item"><span class="marquee-text">Lavalabs.official</span><span class="marquee-dot"></span></div>
+      <div class="marquee-item"><span class="marquee-text">Drop Culture</span><span class="marquee-dot"></span></div>
+      <div class="marquee-item"><span class="marquee-text">Jakarta Streetwear</span><span class="marquee-dot"></span></div>
+      <div class="marquee-item"><span class="marquee-text">Premium Cotton</span><span class="marquee-dot"></span></div>
+      <div class="marquee-item"><span class="marquee-text">Limited Drops</span><span class="marquee-dot"></span></div>
+      <div class="marquee-item"><span class="marquee-text">Quiet Luxury</span><span class="marquee-dot"></span></div>
+    </div>
+  </div>
+
+  <!-- PRODUCTS -->
+  <section class="products" id="koleksi">
+    <div class="products-header">
+      <div>
+        <div class="section-label">Koleksi Terbaru</div>
+        <div class="section-title">The Drop</div>
+      </div>
+      <div class="products-count">03 pieces</div>
+    </div>
+    <div class="product-grid">
+
+      <!-- 001 -->
+      <div class="product-card">
+        <div class="product-thumb">
+        <img src="img/BUILT UNDER PRESSURE.jpg" alt="Built Under Pressue" class="product-image">
+      </div>
+
+     <div class="product-info">
+        <div class="product-name">BUILT UNDER PRESSURE™ Oversized Cutton</div>
+        <div class="product-price">Rp175.000</div>
+      </div>
+      </div>
+
+      <!-- 002 -->
+      <div class="product-card">
+        <div class="product-thumb">
+        <img src="img/DISTY ROSE.jpg" alt="Heat Never Lies" class="product-image">
+      </div>
+
+     <div class="product-info">
+        <div class="product-name">Head Never Lies™ Oversized Cutton</div>
+        <div class="product-price">Rp175.000</div>
+      </div>
+      </div>
+
+      <!-- 003 -->
+      <div class="product-card">
+        <div class="product-thumb">
+        <img src="img/BIG DREAM.jpg" alt="Dream Big Oversize Tee" class="product-image">
+      </div>
+
+     <div class="product-info">
+        <div class="product-name">DREAM BIG™ Oversized Cutton</div>
+        <div class="product-price">Rp175.000</div>
+      </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-left">
+      <div class="section-label">Tentang Kami</div>
+      <div class="about-quote">"Dibuat untuk mereka yang mengerti perbedaan."</div>
+      <p class="about-body">Lavalabs lahir dari rasa jenuh terhadap kebisingan. Kami tidak ingin tampil keras — kami ingin tampil benar. Setiap piece dirancang dengan proporsi yang matang, menggunakan cotton premium yang jatuhnya sempurna di tubuh.</p>
+      <p class="about-body">Streetwear bukan tentang logo besar. Ini tentang mengetahui apa yang kamu pakai dan mengapa.</p>
+    </div>
+    <div class="about-right">
+      <div class="section-label">Dalam Angka</div>
+      <div class="stats-grid">
+        <div class="stat">
+          <div class="stat-n">250+</div>
+          <div class="stat-l">Pieces Sold</div>
+        </div>
+        <div class="stat">
+          <div class="stat-n">100%</div>
+          <div class="stat-l">Premium Cotton</div>
+        </div>
+        <div class="stat">
+          <div class="stat-n">3</div>
+          <div class="stat-l">Drop Series</div>
+        </div>
+        <div class="stat">
+          <div class="stat-n">ID</div>
+          <div class="stat-l">Ship Nationwide</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ORDER -->
+  <section class="order" id="order">
+    <div>
+      <div class="section-label">Cara Order</div>
+      <div class="order-title">Langsung chat,<br><em style="font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300">langsung jadi.</em></div>
+      <p class="order-sub">Chat kami di WhatsApp — tanya soal stok, ukuran, atau langsung pilih piece favoritmu. Respon cepat, pengiriman ke seluruh Indonesia.</p>
+    </div>
+    <a href="https://wa.me/6285156671568?text=Halo%20Lavalabs!%20Saya%20ingin%20tanya%20mengenai%20koleksi" target="_blank" class="btn-wa-lg">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+      Chat via WhatsApp
+    </a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Lavalabs</div>
+    <div class="footer-right">
+      <a href="#koleksi" class="footer-link">Koleksi</a>
+      <a href="#about" class="footer-link">About</a>
+      <a href="https://wa.me/6281234567890" target="_blank" class="footer-link">WhatsApp</a>
+      <span class="footer-copy">© 2025 Lavalabs.official · Jakarta, Indonesia</span>
+    </div>
+  </footer>
+
+  <script>
+    /* ── Navbar scroll ── */
+    const nav = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    /* ── Custom cursor ── */
+    const cursor = document.getElementById('cursor');
+    if (window.matchMedia('(pointer: fine)').matches) {
+      document.addEventListener('mousemove', e => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top  = e.clientY + 'px';
+      }, { passive: true });
+      document.querySelectorAll('a, button, .product-card').forEach(el => {
+        el.addEventListener('mouseenter', () => cursor.classList.add('expanded'));
+        el.addEventListener('mouseleave', () => cursor.classList.remove('expanded'));
+      });
+    } else {
+      cursor.style.display = 'none';
+    }
+
+    /* ── Mobile menu ── */
+    const mobileMenu = document.getElementById('mobileMenu');
+    const hamburger  = document.getElementById('hamburger');
+    function toggleMobile() {
+      const open = mobileMenu.classList.toggle('open');
+      hamburger.classList.toggle('open', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    }
+    function closeMobile() {
+      mobileMenu.classList.remove('open');
+      hamburger.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    /* ── Scroll reveal ── */
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animation = 'fadeUp 0.75s cubic-bezier(0.22,1,0.36,1) forwards';
+          entry.target.style.opacity   = '0';
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.product-card, .about-left, .about-right, .stat, .order > div, .order > a').forEach(el => {
+      el.style.opacity = '0';
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
